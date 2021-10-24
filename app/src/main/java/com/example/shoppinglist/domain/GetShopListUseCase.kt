@@ -1,9 +1,7 @@
 package com.example.shoppinglist.domain
 
-import java.util.*
-
-class GetShopListUseCase {
+class GetShopListUseCase(private val shopListRepository: ShopListRepository) {
     fun getShopList(): List<ShopItem> {
-        return ArrayList<ShopItem>() //Todo: Write body
+        return shopListRepository.getShopList()
     }
 }
