@@ -11,17 +11,13 @@ import com.example.shoppinglist.domain.ShopItem
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var tvTest: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        tvTest = findViewById(R.id.tvTest)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.shopList.observe(this) {
-            tvTest.text = it.toString()
+        viewModel.liveData.observe(this) {
+
         }
-        viewModel.addShopItem(ShopItem("Cap", 1, true))
-        viewModel.getShopList()
     }
 }
