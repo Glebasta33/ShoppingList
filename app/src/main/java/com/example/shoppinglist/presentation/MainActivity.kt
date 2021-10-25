@@ -12,16 +12,20 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var tvTest: TextView
+    private var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         tvTest = findViewById(R.id.tvTest)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.shopList.observe(this) {
+        viewModel.liveData.observe(this) {
             tvTest.text = it.toString()
+            if (count == 0) {
+                count++
+                val item = it[2]
+                viewModel.changeEnableState(item)
+            }
         }
-        viewModel.addShopItem(ShopItem("Cap", 1, true))
-        viewModel.getShopList()
     }
 }
