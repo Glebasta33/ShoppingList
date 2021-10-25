@@ -11,8 +11,6 @@ import com.example.shoppinglist.domain.ShopItem
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var tvTest: TextView
-    private var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,12 +18,7 @@ class MainActivity : AppCompatActivity() {
         tvTest = findViewById(R.id.tvTest)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.liveData.observe(this) {
-            tvTest.text = it.toString()
-            if (count == 0) {
-                count++
-                val item = it[2]
-                viewModel.changeEnableState(item)
-            }
+
         }
     }
 }
