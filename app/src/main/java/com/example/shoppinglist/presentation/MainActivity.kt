@@ -1,17 +1,12 @@
 package com.example.shoppinglist.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.R
-import com.example.shoppinglist.domain.ShopItem
-import kotlinx.android.synthetic.main.item_shop_enabled.view.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,9 +58,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val item = shopListAdapter.shopList[viewHolder.adapterPosition]
                 viewModel.deleteShopItem(item)
-                shopListAdapter.notifyDataSetChanged()
             }
-
         })
         itemTouchHelper.attachToRecyclerView(rvShopList)
     }
