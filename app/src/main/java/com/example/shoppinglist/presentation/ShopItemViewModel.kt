@@ -1,6 +1,5 @@
 package com.example.shoppinglist.presentation
 
-import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -78,20 +77,16 @@ class ShopItemViewModel : ViewModel() {
         if (name.isBlank()) {
             _errorInputName.value = true
             result = false
+        } else {
+            _errorInputName.value = false
         }
         if (count <= 0) {
             _errorInputCount.value = true
             result = false
+        } else {
+            _errorInputCount.value = false
         }
         return result
-    }
-
-    fun resetErrorInputName() {
-        _errorInputName.value = false
-    }
-
-    fun resetErrorInputCount() {
-        _errorInputCount.value = false
     }
 
     private fun closeActivity() {
