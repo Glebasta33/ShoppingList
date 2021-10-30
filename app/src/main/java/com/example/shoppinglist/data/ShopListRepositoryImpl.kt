@@ -12,7 +12,7 @@ object ShopListRepositoryImpl : ShopListRepository {
     private var autoIncrement = 0
 
     init {
-        for (i in 0 until 1000) {
+        for (i in 0 until 20) {
             addShopItem(ShopItem("Item №$i", i, true))
         }
     }
