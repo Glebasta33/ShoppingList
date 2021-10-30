@@ -17,14 +17,6 @@ import java.lang.RuntimeException
 
 class ShopItemActivity : AppCompatActivity() {
 
-//    private lateinit var viewModel: ShopItemViewModel
-//
-//    private lateinit var tilName: TextInputLayout
-//    private lateinit var tilCount: TextInputLayout
-//    private lateinit var etName: EditText
-//    private lateinit var etCount: EditText
-//    private lateinit var buttonSave: Button
-
     private var screenMode = UNKNOWN_MODE
     private var shopItemId = ShopItem.UNDEFINED_ID
 
@@ -32,36 +24,8 @@ class ShopItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop_item)
         parseIntent()
-//        viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
-//        initViews()
         launchRightMode()
-//        addTextChangeListeners()
     }
-
-//    private fun addTextChangeListeners() {
-//        etName.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                tilName.error = null
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
-//            }
-//        })
-//        etCount.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                tilCount.error = null
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
-//            }
-//        })
-//    }
 
     private fun launchRightMode() {
         val fragment = when (screenMode) {
@@ -74,53 +38,6 @@ class ShopItemActivity : AppCompatActivity() {
             .commit()
     }
 
-//    private fun launchEditMode() {
-//        viewModel.getShopItem(shopItemId)
-//        viewModel.shopItem.observe(this, {
-//            etName.setText(it.name)
-//            etCount.setText(it.count.toString())
-//        })
-//        buttonSave.setOnClickListener {
-//            val name = etName.text.toString()
-//            val count = etCount.text.toString()
-//            viewModel.editShopItem(name, count)
-//            checkInputErrors()
-//            closeShopItemActivity()
-//        }
-//    }
-//
-//    private fun launchAddMode() {
-//        buttonSave.setOnClickListener {
-//            val name = etName.text.toString()
-//            val count = etCount.text.toString()
-//            viewModel.addShopItem(name, count)
-//            checkInputErrors()
-//            closeShopItemActivity()
-//        }
-//
-//    }
-//
-//    private fun closeShopItemActivity() {
-//        viewModel.activityIsReadyToClose.observe(this) {
-//            Toast.makeText(this, "Item added", Toast.LENGTH_SHORT).show()
-//            val intent = MainActivity.newIntent(this)
-//            startActivity(intent)
-//        }
-//    }
-//
-//    private fun checkInputErrors() {
-//        viewModel.errorInputName.observe(this) {
-//            if (it) {
-//                tilName.error = "Incorrect name"
-//            }
-//        }
-//        viewModel.errorInputCount.observe(this) {
-//            if (it) {
-//                tilCount.error = "Incorrect count"
-//            }
-//        }
-//    }
-//
     private fun parseIntent() {
         if (!intent.hasExtra(ACTIVITY_MODE)) {
             throw RuntimeException("Param activity mode is absent")
@@ -137,14 +54,6 @@ class ShopItemActivity : AppCompatActivity() {
             shopItemId = intent.getIntExtra(ITEM_ID, ShopItem.UNDEFINED_ID)
         }
     }
-//
-//    private fun initViews() {
-//        tilName = findViewById(R.id.til_name)
-//        tilCount = findViewById(R.id.til_count)
-//        etName = findViewById(R.id.et_name)
-//        etCount = findViewById(R.id.et_count)
-//        buttonSave = findViewById(R.id.save_button)
-//    }
 
     companion object {
         private const val ACTIVITY_MODE = "SHOP_ITEM_ACTIVITY_MODE"
