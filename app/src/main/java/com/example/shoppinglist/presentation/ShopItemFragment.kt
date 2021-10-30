@@ -14,7 +14,7 @@ import com.example.shoppinglist.R
 import com.example.shoppinglist.domain.ShopItem
 import com.google.android.material.textfield.TextInputLayout
 
-class ShopItemFragment() : Fragment() {
+class ShopItemFragment : Fragment() {
 
     private lateinit var viewModel: ShopItemViewModel
 
@@ -37,7 +37,6 @@ class ShopItemFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_shop_item, container, false)
     }
 
@@ -173,7 +172,7 @@ class ShopItemFragment() : Fragment() {
             return ShopItemFragment().apply {
                 arguments = Bundle().apply {
                     putString(SCREEN_MODE, EDIT_MODE)
-                    putInt(ITEM_ID, shopItemId)
+                    putInt(ITEM_ID, id)
                 }
             }
         }
