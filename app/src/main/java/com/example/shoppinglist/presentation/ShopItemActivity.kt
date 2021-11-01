@@ -15,8 +15,7 @@ import com.example.shoppinglist.domain.ShopItem
 import com.google.android.material.textfield.TextInputLayout
 import java.lang.RuntimeException
 
-class ShopItemActivity : AppCompatActivity() {
-
+class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
     private var screenMode = UNKNOWN_MODE
     private var shopItemId = ShopItem.UNDEFINED_ID
 
@@ -24,17 +23,19 @@ class ShopItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop_item)
         parseIntent()
-        launchRightMode()
+        if (savedInstanceState == null) {
+            launchRightMode()
+        }
     }
 
     private fun launchRightMode() {
         val fragment = when (screenMode) {
-            EDIT_MODE -> ShopItemFragment.newInstanceEditItem(shopItemId)
             ADD_MODE -> ShopItemFragment.newInstanceAddItem()
+            EDIT_MODE -> ShopItemFragment.newInstanceEditItem(shopItemId)
             else -> throw RuntimeException("Launch mode: $screenMode")
         }
         supportFragmentManager.beginTransaction()
-            .add(R.id.shop_item_container, fragment)
+            .replace(R.id.shop_item_container, fragment)
             .commit()
     }
 
@@ -74,5 +75,10 @@ class ShopItemActivity : AppCompatActivity() {
             intent.putExtra(ITEM_ID, itemId)
             return intent
         }
+    }
+
+    override fun onEditingFinished() {
+        Toast.makeText(this@ShopItemActivity, "Success", Toast.LENGTH_SHORT).show()
+        finish()
     }
 }
