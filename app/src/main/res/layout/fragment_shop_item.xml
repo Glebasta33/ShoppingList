@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="shopItemViewModel"
+            type="com.example.shoppinglist.presentation.ShopItemViewModel" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,6 +19,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
+        app:inputNameErrorMessage="@{shopItemViewModel.errorInputName}"
         app:layout_constraintBottom_toTopOf="@id/til_count"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +30,7 @@
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@{shopItemViewModel.shopItem.name}"
             android:hint="@string/name_hint"
             android:inputType="textCapWords" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -34,6 +42,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
+        app:inputCountErrorMessage="@{shopItemViewModel.errorInputCount}"
         app:layout_constraintBottom_toTopOf="@+id/save_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +52,7 @@
             android:id="@+id/et_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@{String.valueOf(shopItemViewModel.shopItem.count)}"
             android:hint="@string/count_hint"
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -57,3 +67,4 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

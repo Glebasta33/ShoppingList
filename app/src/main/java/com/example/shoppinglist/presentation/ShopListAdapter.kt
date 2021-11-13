@@ -37,12 +37,10 @@ class ShopListAdapter: ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCal
         val binding = holder.binding
         when (binding) {
             is ItemShopEnabledBinding -> {
-                binding.tvName.text = item.name
-                binding.tvCount.text = item.count.toString()
+                binding.shopItem = item
             }
             is ItemShopDisabledBinding -> {
-                binding.tvName.text = item.name
-                binding.tvCount.text = item.count.toString()
+                binding.shopItem = item
             }
         }
         binding.root.setOnLongClickListener {
