@@ -1,12 +1,10 @@
-package com.example.shoppinglist.presentation
+package com.example.shoppinglist.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.R
 import com.example.shoppinglist.databinding.ItemShopDisabledBinding
 import com.example.shoppinglist.databinding.ItemShopEnabledBinding

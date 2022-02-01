@@ -1,34 +1,30 @@
-package com.example.shoppinglist.presentation
+package com.example.shoppinglist.presentation.activity
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.shoppinglist.R
 import com.example.shoppinglist.domain.ShopItem
-import com.google.android.material.textfield.TextInputLayout
+import com.example.shoppinglist.presentation.fragment.ShopItemFragment
 import java.lang.RuntimeException
 
 class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
+
     private var screenMode = UNKNOWN_MODE
     private var shopItemId = ShopItem.UNDEFINED_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop_item)
-        parseIntent()
+        parseScreenMode()
         if (savedInstanceState == null) {
-            launchRightMode()
+            launchScreenMode()
         }
     }
 
-    private fun launchRightMode() {
+    private fun launchScreenMode() {
         val fragment = when (screenMode) {
             ADD_MODE -> ShopItemFragment.newInstanceAddItem()
             EDIT_MODE -> ShopItemFragment.newInstanceEditItem(shopItemId)
@@ -39,7 +35,7 @@ class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinished
             .commit()
     }
 
-    private fun parseIntent() {
+    private fun parseScreenMode() {
         if (!intent.hasExtra(ACTIVITY_MODE)) {
             throw RuntimeException("Param activity mode is absent")
         }

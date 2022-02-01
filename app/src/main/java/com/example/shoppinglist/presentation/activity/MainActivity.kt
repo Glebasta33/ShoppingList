@@ -1,16 +1,17 @@
-package com.example.shoppinglist.presentation
+package com.example.shoppinglist.presentation.activity
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.R
 import com.example.shoppinglist.databinding.ActivityMainBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.shoppinglist.presentation.viewmodel.MainViewModel
+import com.example.shoppinglist.presentation.fragment.ShopItemFragment
+import com.example.shoppinglist.presentation.adapter.ShopListAdapter
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
@@ -51,11 +52,13 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
             shopListAdapter = ShopListAdapter()
             adapter = shopListAdapter
             recycledViewPool.setMaxRecycledViews(
-                    ShopListAdapter.VIEW_TYPE_ENABLED,
-                    ShopListAdapter.MAX_POOL_SIZE)
+                ShopListAdapter.VIEW_TYPE_ENABLED,
+                ShopListAdapter.MAX_POOL_SIZE
+            )
             recycledViewPool.setMaxRecycledViews(
-                    ShopListAdapter.VIEW_TYPE_DISABLED,
-                    ShopListAdapter.MAX_POOL_SIZE)
+                ShopListAdapter.VIEW_TYPE_DISABLED,
+                ShopListAdapter.MAX_POOL_SIZE
+            )
         }
         setupLongClickListener()
         setupClickListener()
@@ -104,14 +107,6 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
 
     private fun isLandscapeOrientation() = binding.shopItemFragmentContainerInLand != null
-
-    companion object {
-        private const val ACTIVITY_MODE = "SHOP_ITEM_ACTIVITY_MODE"
-        private const val ADD_MODE = "ADD_MODE"
-        private const val EDIT_MODE = "EDIT_MODE"
-        private const val UNKNOWN_MODE = ""
-        private const val ITEM_ID = "ITEM_ID"
-    }
 
     override fun onEditingFinished() {
         Toast.makeText(this@MainActivity, "Success !", Toast.LENGTH_SHORT).show()

@@ -1,21 +1,17 @@
-package com.example.shoppinglist.presentation
+package com.example.shoppinglist.presentation.fragment
 
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.shoppinglist.R
 import com.example.shoppinglist.databinding.FragmentShopItemBinding
 import com.example.shoppinglist.domain.ShopItem
-import com.google.android.material.textfield.TextInputLayout
+import com.example.shoppinglist.presentation.viewmodel.ShopItemViewModel
 
 class ShopItemFragment : Fragment() {
 
@@ -57,7 +53,7 @@ class ShopItemFragment : Fragment() {
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         binding.shopItemViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        launchRightMode()
+        launchScreenMode()
         addTextChangeListeners()
     }
 
@@ -86,7 +82,7 @@ class ShopItemFragment : Fragment() {
         })
     }
 
-    private fun launchRightMode() {
+    private fun launchScreenMode() {
         when (screenMode) {
             EDIT_MODE -> launchEditMode()
             ADD_MODE -> launchAddMode()
