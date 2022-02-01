@@ -9,12 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.shoppinglist.ShoppingListApp
 import com.example.shoppinglist.databinding.FragmentShopItemBinding
+import com.example.shoppinglist.di.ViewModelFactory
 import com.example.shoppinglist.domain.ShopItem
 import com.example.shoppinglist.presentation.viewmodel.ShopItemViewModel
+import javax.inject.Inject
 
 class ShopItemFragment : Fragment() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: ShopItemViewModel
     private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 
@@ -26,6 +31,7 @@ class ShopItemFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("FragmentShopItemBinding == null")
 
     override fun onAttach(context: Context) {
+        (activity?.application as ShoppingListApp).component.inject(this)
         super.onAttach(context)
         if (context is OnEditingFinishedListener) {
             onEditingFinishedListener = context
@@ -50,7 +56,7 @@ class ShopItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[ShopItemViewModel::class.java]
         binding.shopItemViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         launchScreenMode()

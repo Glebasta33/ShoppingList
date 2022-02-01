@@ -8,25 +8,31 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.R
+import com.example.shoppinglist.ShoppingListApp
 import com.example.shoppinglist.databinding.ActivityMainBinding
+import com.example.shoppinglist.di.ViewModelFactory
 import com.example.shoppinglist.presentation.viewmodel.MainViewModel
 import com.example.shoppinglist.presentation.fragment.ShopItemFragment
 import com.example.shoppinglist.presentation.adapter.ShopListAdapter
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as ShoppingListApp).component.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupRecyclerView()
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.liveData.observe(this) {
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+        viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
         }
         binding.buttonAddShopItem.setOnClickListener {
