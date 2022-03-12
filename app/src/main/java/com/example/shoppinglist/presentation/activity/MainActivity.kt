@@ -2,6 +2,8 @@ package com.example.shoppinglist.presentation.activity
 
 import android.net.Uri
 import android.os.Bundle
+import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -12,10 +14,12 @@ import com.example.shoppinglist.R
 import com.example.shoppinglist.ShoppingListApp
 import com.example.shoppinglist.databinding.ActivityMainBinding
 import com.example.shoppinglist.di.ViewModelFactory
+import com.example.shoppinglist.domain.ShopItem
 import com.example.shoppinglist.presentation.viewmodel.MainViewModel
 import com.example.shoppinglist.presentation.fragment.ShopItemFragment
 import com.example.shoppinglist.presentation.adapter.ShopListAdapter
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
@@ -44,14 +48,35 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
                 launchFragment(ShopItemFragment.newInstanceAddItem())
             }
         }
-        contentResolver.query(
-            Uri.parse("content://com.example.shoppinglist/shop_items/1"),
-            null,
-            null,
-            null,
-            null,
-            null
-        )
+        thread {
+            val cursor = contentResolver.query(
+                Uri.parse("content://com.example.shoppinglist/shop_items"),
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+            cursor?.let {
+                while (it.moveToNext()) {
+                    val id = it.getInt(it.getColumnIndexOrThrow("id"))
+                    val count = it.getInt(it.getColumnIndexOrThrow("count"))
+                    val name = it.getString(it.getColumnIndexOrThrow("name"))
+                    val enabled = it.getInt(it.getColumnIndexOrThrow("enabled")) > 0
+
+                    val shopItem = ShopItem(
+                        id = id,
+                        name = name,
+                        count = count,
+                        enabled = enabled
+                    )
+                }
+
+                it.close()
+            }
+        }
+
+
     }
 
     private fun launchFragment(fragment: Fragment) {
