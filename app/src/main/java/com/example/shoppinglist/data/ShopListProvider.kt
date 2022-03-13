@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.util.Log
 import com.example.shoppinglist.ShoppingListApp
+import com.example.shoppinglist.domain.ShopItem
 import javax.inject.Inject
 
 class ShopListProvider : ContentProvider() {
@@ -17,6 +18,8 @@ class ShopListProvider : ContentProvider() {
 
     @Inject
     lateinit var shopListDao: ShopListDao
+    @Inject
+    lateinit var mapper: ShopListMapper
 
     private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
         addURI("com.example.shoppinglist", "shop_items", GET_SHOP_ITEMS_QUERY)
@@ -37,7 +40,6 @@ class ShopListProvider : ContentProvider() {
     ): Cursor? {
         return when (uriMatcher.match(uri)) {
             GET_SHOP_ITEMS_QUERY -> shopListDao.getShopListCursor()
-            GET_SHOP_ITEM_BY_ID_QUERY -> shopListDao.getShopListCursor()
             else -> null
         }
     }
@@ -47,7 +49,20 @@ class ShopListProvider : ContentProvider() {
     }
 
     override fun insert(uri: Uri, contentValues: ContentValues?): Uri? {
-        TODO("Not yet implemented")
+        when (uriMatcher.match(uri)) {
+            GET_SHOP_ITEMS_QUERY -> {
+                contentValues?.let {
+                    val id = it.getAsInteger("id")
+                    val name = it.getAsString("name")
+                    val count = it.getAsInteger("count")
+                    val enabled = it.getAsBoolean("enabled")
+
+                    val shopItem = ShopItem(name, count, enabled, id)
+                    shopListDao.putShopItem(mapper.mapEntityToDbModel(shopItem))
+                }
+            }
+        }
+        return null
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {

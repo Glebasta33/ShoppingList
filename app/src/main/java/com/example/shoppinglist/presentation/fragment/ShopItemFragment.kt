@@ -1,6 +1,8 @@
 package com.example.shoppinglist.presentation.fragment
 
+import android.content.ContentValues
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,6 +17,7 @@ import com.example.shoppinglist.di.ViewModelFactory
 import com.example.shoppinglist.domain.ShopItem
 import com.example.shoppinglist.presentation.viewmodel.ShopItemViewModel
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 class ShopItemFragment : Fragment() {
 
@@ -110,7 +113,18 @@ class ShopItemFragment : Fragment() {
         binding.saveButton.setOnClickListener {
             val name = binding.etName.text.toString()
             val count = binding.etCount.text.toString()
-            viewModel.addShopItem(name, count)
+//            viewModel.addShopItem(name, count)
+            thread {
+                context?.contentResolver?.insert(
+                    Uri.parse("content://com.example.shoppinglist/shop_items"),
+                    ContentValues().apply {
+                        put("id", 0)
+                        put("name", name)
+                        put("count", count.toInt())
+                        put("enabled", true)
+                    }
+                )
+            }
             closeShopItemActivity()
         }
     }
